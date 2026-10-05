@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vllm-nemotron-asr-plugin"
+version = "0.1.0"
+description = "Nemotron 3.5 ASR complete-audio transcription for vLLM"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{name = "Sohaib Ahmad", email = "sohaibahmed1919@gmail.com"}]
+dependencies = [
+    "vllm[audio]",
+    "transformers>=5.13",
+    "torch",
+    "numpy",
+]
+
+[project.optional-dependencies]
+test = ["pytest", "httpx", "soundfile", "librosa"]
+eval = ["huggingface-hub", "pyarrow", "jiwer", "soundfile"]
+
+[project.entry-points."vllm.general_plugins"]
+nemotron_asr = "vllm_nemotron_asr_plugin:register"
+
+[project.urls]
+Repository = "https://github.com/Sohaib-Ahmed21/vllm-nemotron-asr-plugin"
+
+[tool.setuptools]
+packages = ["vllm_nemotron_asr_plugin"]
+
+[tool.setuptools.package-data]
+vllm_nemotron_asr_plugin = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["gpu: requires CUDA and starts a vLLM server"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
